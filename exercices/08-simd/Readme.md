@@ -1,0 +1,1 @@
+Reuse material from [Kokkos-tutorial](https://github.com/kokkos/kokkos-tutorials/tree/main/Exercises/simd) and slides [](https://github.com/kokkos/kokkos-tutorials/blob/main/LectureSeries/KokkosTutorial_05_SIMDStreamsTasking.pdf)

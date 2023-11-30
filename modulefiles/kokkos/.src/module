@@ -1,0 +1,43 @@
+#%Module1.0
+# -*- mode: Tcl;-*-
+####################################################
+## Modulefile for Kokkos
+####################################################
+
+
+proc ModulesHelp { } {
+    puts stderr "Kokkos - sets the environment for Kokkos"
+}
+
+module-whatis "sets environment for using [module-info name]"
+
+conflict kokkos
+
+# get module full name
+set fullname [module-info name]
+
+# split fullname into name/version
+set fullname_splitted [split $fullname /]
+
+# modulefile name
+set product [lindex $fullname_splitted end-1]
+
+# module config
+set version [lindex $fullname_splitted end]
+
+# for Tcl script use only
+set     topdir          $env(HOME)/local/kokkos-$version
+
+if {[file isdirectory $topdir/lib64]} {
+   set kokkos_libdir $topdir/lib64
+} elseif {[file isdirectory $topdir/lib]} {
+   set kokkos_libdir $topdir/lib
+} else {
+   puts stderr "Can't manage to guess kokkos libdir !"
+}
+
+prepend-path PATH               $topdir/bin
+prepend-path LD_LIBRARY_PATH    $kokkos_libdir
+prepend-path CMAKE_PREFIX_PATH  $kokkos_libdir/cmake
+
+unset version

@@ -1,0 +1,43 @@
+#%Module1.0
+# -*- mode: Tcl;-*-
+####################################################
+## Modulefile for Yakl
+####################################################
+
+
+proc ModulesHelp { } {
+    puts stderr "Yakl - sets the environment for Yakl"
+}
+
+module-whatis "sets environment for using [module-info name]"
+
+conflict yakl
+
+# get module full name
+set fullname [module-info name]
+
+# split fullname into name/version
+set fullname_splitted [split $fullname /]
+
+# modulefile name
+set product [lindex $fullname_splitted end-1]
+
+# module config
+set version [lindex $fullname_splitted end]
+
+# for Tcl script use only
+set     topdir          $env(HOME)/local/yakl-$version
+
+if {[file isdirectory $topdir/lib64]} {
+   set yakl_libdir $topdir/lib64
+} elseif {[file isdirectory $topdir/lib]} {
+   set yakl_libdir $topdir/lib
+} else {
+   puts stderr "Can't manage to guess yakl libdir !"
+}
+
+prepend-path PATH               $topdir/bin
+prepend-path LD_LIBRARY_PATH    $yakl_libdir
+prepend-path CMAKE_PREFIX_PATH  $yakl_libdir/cmake
+
+unset version

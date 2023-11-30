@@ -1,0 +1,7 @@
+*.o
+*.ppm
+_build*
+kokkos
+mandelbrot.serial
+mandelbrot.omp
+mandelbrot.cuda

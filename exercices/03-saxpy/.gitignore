@@ -1,0 +1,4 @@
+*.o
+saxpy.host
+saxpy.cuda
+_build/*
