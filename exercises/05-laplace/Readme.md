@@ -6,7 +6,7 @@
 
 ## about
 
-Here is very simple stencil compuation compute
+Here is very simple stencil computation compute
 - simple range and multidimensionnal range execution policy
 - asynchronous memory copy (i.e. overlap between a computationnal functor and a deep copy operation).
 
