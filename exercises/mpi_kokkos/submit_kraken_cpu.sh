@@ -19,7 +19,6 @@ export OMP_NUM_THREADS=$omp_threads
 export OMP_PROC_BIND=spread
 export OMP_PLACES=threads
 
-
 cd $SLURM_SUBMIT_DIR
 
 EXE_NAME=mpi_kokkos

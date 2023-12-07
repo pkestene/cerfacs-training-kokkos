@@ -1,4 +1,4 @@
-The source code is located in [exercices/03-saxpy](https://github.com/pkestene/cerfacs-training-kokkos/tree/main/exercices/03-saxpy)
+The source code is located in [exercises/03-saxpy](https://github.com/pkestene/cerfacs-training-kokkos/tree/main/exercises/03-saxpy)
 
 The code used here is adapted from an old version of the kokkos-tutorial
 ```shell

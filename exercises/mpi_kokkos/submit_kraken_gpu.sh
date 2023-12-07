@@ -35,5 +35,5 @@ echo "##############################################"
 echo "##############################################"
 echo " "
 
-# Nominal bahavior: each mpi task binded to a different GPU
+# Nominal behavior: each mpi task binded to a different GPU
 mpirun --report-bindings ./$EXE_NAME --kokkos-map-device-id-by=mpi_rank
