@@ -1,0 +1,13 @@
+#!/bin/bash
+
+#SBATCH -J fisher-openacc
+#SBATCH -N 1
+#SBATCH -c 32
+#SBATCH --partition gpua30
+#SBATCH --gres=gpu:a30:4
+#SBATCH --ntasks-per-node=1
+#SBATCH --output=job%j.out
+
+#mpirun ./main 128 128 10 0.001 yes
+#mpirun ./main 512 512 50 0.0025 no
+mpirun ./main 1024 1024 100 0.0025 no

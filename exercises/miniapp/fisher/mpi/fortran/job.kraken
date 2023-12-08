@@ -1,0 +1,16 @@
+#!/bin/bash
+
+#SBATCH -J fisher-mpi
+#SBATCH -N 1
+#SBATCH -c 32
+#SBATCH --partition gpua30
+#SBATCH --gres=gpu:a30:4
+#SBATCH --ntasks-per-node=8
+#SBATCH --output=job%j.out
+
+dim=512
+tsteps=200
+
+OMP_NUM_THREADS=1 mpirun -n32 -c1 ./main $dim $dim $tsteps 0.01
+OMP_NUM_THREADS=2 mpirun -n16 -c2 ./main $dim $dim $tsteps 0.01
+OMP_NUM_THREADS=4 mpirun -n8  -c4 ./main $dim $dim $tsteps 0.01

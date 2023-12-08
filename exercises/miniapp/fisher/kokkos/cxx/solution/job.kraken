@@ -1,0 +1,11 @@
+#!/bin/bash
+
+#SBATCH -J fisher-kokkos
+#SBATCH -N 1
+#SBATCH -c 32
+#SBATCH --partition gpua30
+#SBATCH --gres=gpu:a30:4
+#SBATCH --ntasks-per-node=1
+#SBATCH --output=job%j.out
+
+mpirun ./main 256 256 200 0.01 yes
