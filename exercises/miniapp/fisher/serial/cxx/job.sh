@@ -2,7 +2,7 @@
 #SBATCH -J fisher_serial
 #SBATCH -N 1
 #SBATCH -c 32
-#SBATCH --partition gpua30
+#SBATCH --partition kokkos
 #SBATCH --gres=gpu:a30:4
 #SBATCH --ntasks-per-node=1
 

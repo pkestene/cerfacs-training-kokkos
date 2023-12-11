@@ -2,7 +2,7 @@
 #SBATCH -J test_kokkos
 #SBATCH -N 1
 #SBATCH -c 16
-#SBATCH --partition gpua30
+#SBATCH --partition kokkos
 #SBATCH --gres=gpu:a30:4
 #SBATCH --ntasks-per-node=1
 #SBATCH --mail-user=your.email@wherever
