@@ -14,10 +14,10 @@ Currently Loaded Modulefiles:
 ### Install miniconda
 
 ```shell
-mkdir -p /scratch/exter/$USER/install/miniconda
-cd /scratch/exter/$USER/install/miniconda
+mkdir -p /scratch/forma/$USER/install/miniconda
+cd /scratch/forma/$USER/install/miniconda
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-bash ./Miniconda3-latest-Linux-x86_64.sh -b -u -p  /scratch/exter/$USER/install/miniconda
+bash ./Miniconda3-latest-Linux-x86_64.sh -b -u -p  /scratch/forma/$USER/install/miniconda
 ./bin/conda init bash
 ```
 
