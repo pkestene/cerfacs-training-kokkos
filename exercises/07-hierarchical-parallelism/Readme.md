@@ -23,7 +23,7 @@ https://github.com/OpenMP/Examples/blob/v4.5.0/sources/Example_teams.1.c
 3. Build and run the benchmark inside folder `benchmark`.
 - change data size,
 - change kokkos backend: Kokkos::OpenMP and Kokkos::Cuda,
-- compare performance with thrird party blas library,
+- compare performance with third party blas library,
 - comments ?
 
 

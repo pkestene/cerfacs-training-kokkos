@@ -84,7 +84,7 @@ saxpy_test(int64_t length, int nrepeat)
   printf("Kokkos default exec space: %s\n", Kokkos::DefaultExecutionSpace::name());
 
   // Initialize arrays
-  Kokkos::parallel_for(
+  Kokkos::parallel_for("init arrays",
     length, KOKKOS_LAMBDA(const int & i) {
       x(i) = 1.0 * i;
       y(i) = 3.0 * i;
@@ -96,7 +96,7 @@ saxpy_test(int64_t length, int nrepeat)
   for (int k = 0; k < nrepeat; ++k)
   {
     // Do saxpy
-    Kokkos::parallel_for(
+      Kokkos::parallel_for("compute saxpy",
       length, KOKKOS_LAMBDA(const int & i) { y(i) = a * x(i) + y(i); });
   }
   timer.stop();

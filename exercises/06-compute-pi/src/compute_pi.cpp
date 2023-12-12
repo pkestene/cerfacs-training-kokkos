@@ -87,7 +87,7 @@ struct compute_pi_functor
 
     // TODO perform computation : execute functor
     // which one ? parallel_for / reduce / scan ?
-    // Kokkos::parallel_?????(niter_, functor, nb_pt_inside);
+    // Kokkos::parallel_?????("compute pi", niter_, functor, nb_pt_inside);
 
     // final results
     double pi = 4.0 * nb_pt_inside / (niter_ * nrepeat_);

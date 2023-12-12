@@ -126,7 +126,7 @@ compute_mandelbrot(int & argc, char * argv[])
   timer.start();
 
   MandelbrotFunctor functor(image, c);
-  Kokkos::parallel_for(c.WIDTH * c.HEIGHT, functor);
+  Kokkos::parallel_for("compute mandelbrot", c.WIDTH * c.HEIGHT, functor);
 
   // copy back results from device to host
   /* TODO 2 : deep copy image to imageHost */

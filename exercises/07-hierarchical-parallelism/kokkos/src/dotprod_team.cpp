@@ -31,13 +31,13 @@ test_dotprod(int64_t length, int nrepeat, int nteams)
   // TODO1: Allocate Views for array B and C
 
   // Initialize arrays
-  Kokkos::parallel_for(
-    Kokkos::RangePolicy<ExecSpace>(0, length), KOKKOS_LAMBDA(const int64_t & i) {
-      // B(i) = cos(2*M_PI*i/100.);
-      // C(i) = cos(2*M_PI*i/100.);
-      B(i) = 1.0 * i;
-      C(i) = 1.0;
-    });
+    Kokkos::parallel_for("init arrays",
+                         Kokkos::RangePolicy<ExecSpace>(0, length), KOKKOS_LAMBDA(const int64_t & i) {
+                             // B(i) = cos(2*M_PI*i/100.);
+                             // C(i) = cos(2*M_PI*i/100.);
+                             B(i) = 1.0 * i;
+                             C(i) = 1.0;
+                         });
 
   // Time computation
   using team_policy = Kokkos::TeamPolicy<ExecSpace, Kokkos::IndexType<int64_t>>;
@@ -56,7 +56,7 @@ test_dotprod(int64_t length, int nrepeat, int nteams)
   {
 
     // Do dotprod
-    Kokkos::parallel_for(
+    Kokkos::parallel_for("compute dotprod",
       policy, KOKKOS_LAMBDA(const team_member & member) {
         // inside a team, compute dot product partial result as a parallel reduce operation
         real_t partial_dot_prod = 0;
