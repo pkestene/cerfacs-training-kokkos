@@ -18,7 +18,7 @@ make -j 8 KOKKOS_PATH=$HOME/install/kokkos KOKKOS_ARCH=SKX,Ampere80 KOKKOS_DEVIC
 ## Kokkos::OpenMP backend
 
 ```shell
-module $HOME/cerfacs-training-kokkos/modulefiles
+module use $HOME/cerfacs-training-kokkos/modulefiles
 module load kokkos/4.1.00-openmp-gnu-11.2.00-RelWithDebInfo
 mkdir -p _build/openmp
 cd _build/openmp
@@ -30,7 +30,7 @@ make -j 8
 ## Kokkos::Cuda backend
 
 ```shell
-module $HOME/cerfacs-training-kokkos/modulefiles
+module use $HOME/cerfacs-training-kokkos/modulefiles
 module load kokkos/4.1.00-cuda-12.0-gnu-11.2.00-RelWithDebInfo
 mkdir -p _build/cuda
 cd _build/cuda
