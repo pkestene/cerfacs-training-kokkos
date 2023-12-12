@@ -51,18 +51,20 @@ It is good practice to have a look at file `KokkosCore_config.h` generated at to
 # Build Kokkos for OpenMP backend with the gnu tool toolchain
 
 ```shell
-export GNU_VERSION=11.2.00
+export GNU_VERSION=11.2.0
 export KOKKOS_VERSION=4.1.00
+
+CMAKE_BUILD_TYPE=RelWithDebInfo
 
 module load compiler/gcc/$GNU_VERSION
 module load lib/hwloc/2.1.0
 
 cd kokkos
-BUILD_DIR=_build/$KOKKOS_VERSION/openmp-gnu-$GNU_VERSION
-INSTALL_DIR=$HOME/local/kokkos-$KOKKOS_VERSION-openmp-gnu-$GNU_VERSION
+BUILD_DIR=_build/$KOKKOS_VERSION/openmp-gnu-$GNU_VERSION-$CMAKE_BUILD_TYPE
+INSTALL_DIR=$HOME/local/kokkos-$KOKKOS_VERSION-openmp-gnu-$GNU_VERSION-$CMAKE_BUILD_TYPE
 mkdir -p $BUILD_DIR
 cd $BUILD_DIR
-cmake -DKokkos_ENABLE_OPENMP=ON -DKokkos_ENABLE_HWLOC=ON -DCMAKE_CXX_STANDARD=17 -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR ../../..
+cmake -DKokkos_ENABLE_OPENMP=ON -DKokkos_ENABLE_HWLOC=ON -DCMAKE_CXX_STANDARD=17 -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR -DCMAKE_BUILD_TYPE=$CMAKE_BUILD_TYPE ../../..
 make -j 8
 make install
 ```
@@ -139,9 +141,11 @@ Be carefull, the following instructions are specific to Kraken (espacially regar
 **Build instructions**
 
 ```shell
-export GNU_VERSION=11.2.00
+export GNU_VERSION=11.2.0
 export INTEL_LLVM_VERSION=23.2.1
 export KOKKOS_VERSION=4.1.00
+
+CMAKE_BUILD_TYPE=RelWithDebInfo
 
 module load compiler/gcc/$GNU_VERSION
 unset CXX CC F77 F90 F95 FC
@@ -152,11 +156,11 @@ export CXX=icpx
 module load lib/hwloc/2.1.0
 
 cd kokkos
-BUILD_DIR=_build/$KOKKOS_VERSION/openmp-intel-llvm-$INTEL_LLVM_VERSION
-INSTALL_DIR=$HOME/local/kokkos-$KOKKOS_VERSION-openmp-intel-llvm-$INTEL_LLVM_VERSION
+BUILD_DIR=_build/$KOKKOS_VERSION/openmp-intel-llvm-$INTEL_LLVM_VERSION-$CMAKE_BUILD_TYPE
+INSTALL_DIR=$HOME/local/kokkos-$KOKKOS_VERSION-openmp-intel-llvm-$INTEL_LLVM_VERSION-$CMAKE_BUILD_TYPE
 mkdir -p $BUILD_DIR
 cd $BUILD_DIR
-cmake -DKokkos_ENABLE_OPENMP=ON -DKokkos_ENABLE_HWLOC=ON -DCMAKE_CXX_STANDARD=17 -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR ../../..
+cmake -DKokkos_ENABLE_OPENMP=ON -DKokkos_ENABLE_HWLOC=ON -DCMAKE_CXX_STANDARD=17 -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR -DCMAKE_BUILD_TYPE=$CMAKE_BUILD_TYPE ../../..
 make -j 8
 make install
 ```
@@ -177,21 +181,24 @@ What differences do you see in the output of the job ?
 # Build Kokkos for both OpenMP and CUDA backends with gnu tool toolchain and nvcc toolchain
 
 ```shell
-export GNU_VERSION=11.2.00
+unset CXX
+export GNU_VERSION=11.2.0
 export KOKKOS_VERSION=4.1.00
 export CUDA_VERSION=12.0
+
+CMAKE_BUILD_TYPE=RelWithDebInfo
 
 module load compiler/gcc/$GNU_VERSION
 module load nvidia/cuda/$CUDA_VERSION
 
 cd kokkos
-BUILD_DIR=_build/$KOKKOS_VERSION/cuda-$CUDA_VERSION-gnu-$GNU_VERSION
-INSTALL_DIR=$HOME/local/kokkos-$KOKKOS_VERSION-cuda-$CUDA_VERSION-gnu-$GNU_VERSION
+BUILD_DIR=_build/$KOKKOS_VERSION/cuda-$CUDA_VERSION-gnu-$GNU_VERSION-$CMAKE_BUILD_TYPE
+INSTALL_DIR=$HOME/local/kokkos-$KOKKOS_VERSION-cuda-$CUDA_VERSION-gnu-$GNU_VERSION-$CMAKE_BUILD_TYPE
 mkdir -p $BUILD_DIR
 cd $BUILD_DIR
 
 # note: on kraken, when building on login node, kokkos can't auto detect GPU architecture, so we provide it
-cmake -DKokkos_ENABLE_OPENMP=ON -DKokkos_ENABLE_HWLOC=ON -DCMAKE_CXX_STANDARD=17 -DKokkos_ENABLE_CUDA=ON -DKokkos_ARCH_AMPERE80=ON -DKokkos_ENABLE_CUDA_CONSTEXPR=ON -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR ../../..
+cmake -DKokkos_ENABLE_OPENMP=ON -DKokkos_ENABLE_HWLOC=ON -DCMAKE_CXX_STANDARD=17 -DKokkos_ENABLE_CUDA=ON -DKokkos_ARCH_AMPERE80=ON -DKokkos_ENABLE_CUDA_CONSTEXPR=ON -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR -DCMAKE_BUILD_TYPE=$CMAKE_BUILD_TYPE ../../..
 make -j 8
 make install
 ```
