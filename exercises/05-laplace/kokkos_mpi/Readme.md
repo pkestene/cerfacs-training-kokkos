@@ -21,7 +21,7 @@ module load openmpi/4.1.6-gnu-11.2.0-cuda-12.0
 
 ```shell
 # if using OpenMP as default backend
-module load kokkos/4.1.00-openmp-gnu-11.2.00-RelWithDebInfo
+module load kokkos/4.1.00-openmp-gnu-11.2.0-RelWithDebInfo
 mkdir -p _build/openmp
 cd _build/openmp
 cmake ../..
@@ -32,7 +32,7 @@ make
 
 ```shell
 # if using Cuda as default backend
-module load kokkos/4.1.00-cuda-12.0-gnu-11.2.00-RelWithDebInfo
+module load kokkos/4.1.00-cuda-12.0-gnu-11.2.0-RelWithDebInfo
 mkdir -p _build/cuda
 cd _build/cuda
 cmake ../..

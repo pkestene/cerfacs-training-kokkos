@@ -16,7 +16,7 @@ If you just want to build solution, just add "-DBUILD_SOLUTION=ON" on the cmake 
 ### Kokkos::OpenMP backend
 
 ```shell
-module load kokkos/4.1.00-openmp-gnu-11.2.00-RelWithDebInfo
+module load kokkos/4.1.00-openmp-gnu-11.2.0-RelWithDebInfo
 mkdir -p _build/openmp; cd _build/openmp
 cmake ../..
 make
@@ -25,7 +25,7 @@ make
 ### Kokkos::Cuda backend
 
 ```shell
-module load kokkos/4.1.00-cuda-12.0-gnu-11.2.00-RelWithDebInfo
+module load kokkos/4.1.00-cuda-12.0-gnu-11.2.0-RelWithDebInfo
 mkdir -p _build/cuda; cd _build/cuda
 cmake ../..
 make

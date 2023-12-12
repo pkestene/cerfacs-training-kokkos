@@ -26,7 +26,9 @@ You should see that three new modulefiles are available:
  > $ module av kokkos
 
 ---------- /home/exter/kestener/cerfacs-training-kokkos/modulefiles --------
-kokkos/4.1.00-cuda-12.0-gnu-11.2.00  kokkos/4.1.00-openmp-gnu-11.2.00  kokkos/4.1.00-openmp-intel-llvm-2023.1.0
+kokkos/4.1.00-cuda-12.0-gnu-11.2.0-RelWithDebInfo
+kokkos/4.1.00-openmp-gnu-11.2.0-RelWithDebInfo
+kokkos/4.1.00-openmp-intel-llvm-2023.1.0-RelWithDebInfo
 ```
 
 
@@ -70,7 +72,7 @@ Here on kraken we build on the login node, where no GPU is available, so we have
 ```shell
 # environement setup
 module load nvidia/cuda/12.0
-module load kokkos/4.1.00-cuda-12.0-gnu-11.2.00-RelWithDebInfo
+module load kokkos/4.1.00-cuda-12.0-gnu-11.2.0-RelWithDebInfo
 
 cd kokkos-demo-application
 mkdir -p _build/app

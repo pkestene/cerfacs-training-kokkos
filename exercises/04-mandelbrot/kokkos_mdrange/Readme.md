@@ -13,7 +13,7 @@ Additionnal question:
 
 If you build using kokkos modulefile:
 ```shell
-module load kokkos/4.1.00-openmp-gnu-11.2.00-RelWithDebInfo
+module load kokkos/4.1.00-openmp-gnu-11.2.0-RelWithDebInfo
 mkdir -p _build/openmp; cd _build/openmp
 cmake ../..
 make -j 8
@@ -21,7 +21,7 @@ make -j 8
 # Minimal cmake information for Kokkos::Cuda backend on kraken
 
 ```shell
-module load kokkos/4.1.00-cuda-12.0-gnu-11.2.00-RelWithDebInfo
+module load kokkos/4.1.00-cuda-12.0-gnu-11.2.0-RelWithDebInfo
 mkdir build_cuda; cd build_cuda
 cmake -DKOKKOS_ENABLE_CUDA=ON -DKOKKOS_ENABLE_OPENMP=ON -DKOKKOS_ENABLE_HWLOC=ON -DKOKKOS_ARCH=Ampere80 ..
 make -j 8
