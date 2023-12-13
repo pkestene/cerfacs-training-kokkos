@@ -31,8 +31,8 @@ make -j 8
 
 ```shell
 module load kokkos/4.1.00-cuda-12.0-gnu-11.2.0-RelWithDebInfo
-mkdir build_cuda; cd build_cuda
-cmake -DKOKKOS_ENABLE_CUDA=ON -DKOKKOS_ENABLE_OPENMP=ON -DKOKKOS_ENABLE_HWLOC=ON -DKOKKOS_ARCH=Ampere80 ..
+mkdir _build/cuda; cd _build/cuda
+cmake ../..
 make -j 8
 ```
 
@@ -46,6 +46,6 @@ make -j 8
 
 ```shell
 mkdir build_cuda; cd build_cuda
-cmake -DMANDELBROT_KOKKOS_BUILD=ON -DMANDELBROT_KOKKOS_BACKEND=Cuda -DKokkos_ARCH_Ampere80=ON ../..
+cmake -DMANDELBROT_KOKKOS_BUILD=ON -DMANDELBROT_KOKKOS_BACKEND=Cuda -DKokkos_ARCH_AMPERE80=ON ../..
 make -j 8
 ```
