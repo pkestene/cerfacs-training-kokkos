@@ -4,7 +4,7 @@ KOKKOS_PATH ?= ${HOME}/install/kokkos
 KOKKOS_DEVICES ?= "OpenMP"
 EXE_NAME = "saxpy.kokkos"
 
-SRC = $(wildcard *.cpp)
+SRC = saxpy.cpp
 
 default: build
 	echo "Start Build"
@@ -13,12 +13,12 @@ default: build
 ifneq (,$(findstring Cuda,$(KOKKOS_DEVICES)))
 CXX = ${KOKKOS_PATH}/bin/nvcc_wrapper
 EXE = ${EXE_NAME}.cuda
-KOKKOS_ARCH = "SKX,Ampere80"
+KOKKOS_ARCH = "Zen2,Ampere80"
 KOKKOS_CUDA_OPTIONS = "enable_lambda"
 else
 CXX = g++
 EXE = ${EXE_NAME}.host
-KOKKOS_ARCH = "SKX"
+KOKKOS_ARCH = "Zen2"
 endif
 
 CXXFLAGS = -O3

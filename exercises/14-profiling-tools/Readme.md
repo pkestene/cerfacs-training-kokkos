@@ -8,8 +8,8 @@ Build and this test code from folder test.
 ```shell
 cd test
 mkdir _build; cd _build
-module load nvidia/cuda/12.0
-module load kokkos/4.1.00-cuda-12.0-gnu-11.2.0-RelWithDebInfo
+module load cuda/11.8
+module load kokkos/4.1.00-cuda-11.8-gnu-9.4.0-RelWithDebInfo
 
 cmake ..
 make
@@ -52,9 +52,9 @@ Look at slides 19. Try to use tools like `MemoryHighWaterMark`, `MemoryUsage` an
 
 ### nvtx-connector
 
-On kraken, e.g.
+On hpcai, e.g.
 ```shell
-module load nvidia/cuda/12.0
+module load cuda/11.8
 
 git clone git@github.com:kokkos/kokkos-tools.git
 cd kokkos-tools/profiling/nvtx-connector

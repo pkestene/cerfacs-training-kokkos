@@ -22,7 +22,7 @@ nsys-ui report1.nsys-rep
 
 If you build using kokkos modulefile:
 ```shell
-module load kokkos/4.1.00-openmp-gnu-11.2.0-RelWithDebInfo
+module load kokkos/4.1.00-openmp-gnu-9.4.0-RelWithDebInfo
 mkdir -p _build/openmp; cd _build/openmp
 cmake ../..
 make -j 8
@@ -30,7 +30,7 @@ make -j 8
 # Minimal cmake information for Kokkos::Cuda backend on kraken
 
 ```shell
-module load kokkos/4.1.00-cuda-12.0-gnu-11.2.0-RelWithDebInfo
+module load kokkos/4.1.00-cuda-11.8-gnu-9.4.0-RelWithDebInfo
 mkdir _build/cuda; cd _build/cuda
 cmake ../..
 make -j 8
@@ -39,7 +39,7 @@ make -j 8
 If you build both kokkos and user application:
 ```shell
 mkdir -p _build/openmp; cd _build/openmp
-cmake -DMANDELBROT_KOKKOS_BUILD=ON -DMANDELBROT_KOKKOS_BACKEND=OpenMP -DKokkos_ARCH_SKX=ON ../..
+cmake -DMANDELBROT_KOKKOS_BUILD=ON -DMANDELBROT_KOKKOS_BACKEND=OpenMP -DKokkos_ARCH_ZEN2=ON ../..
 make -j 8
 
 # Minimal cmake information for Kokkos::Cuda backend on kraken

@@ -3,14 +3,14 @@
 ## Kokkos::OpenMP backend
 
 ```shell
-make -j 8 KOKKOS_PATH=$HOME/install/kokkos KOKKOS_ARCH=SKX
+make -j 8 KOKKOS_PATH=$HOME/install/kokkos KOKKOS_ARCH=Zen2
 ```
 
 ## Kokkos::Cuda backend
 
 ```shell
-module load nvidia/cuda/12.0
-make -j 8 KOKKOS_PATH=$HOME/install/kokkos KOKKOS_ARCH=SKX,Ampere80 KOKKOS_DEVICES=OpenMP,Cuda
+module load cuda/11.8
+make -j 8 KOKKOS_PATH=$HOME/install/kokkos KOKKOS_ARCH=Zen2,Ampere80 KOKKOS_DEVICES=OpenMP,Cuda
 ```
 
 # Build with cmake and modulefile
@@ -19,7 +19,7 @@ make -j 8 KOKKOS_PATH=$HOME/install/kokkos KOKKOS_ARCH=SKX,Ampere80 KOKKOS_DEVIC
 
 ```shell
 module use $HOME/cerfacs-training-kokkos/modulefiles
-module load kokkos/4.1.00-openmp-gnu-11.2.0-RelWithDebInfo
+module load kokkos/4.1.00-openmp-gnu-9.4.0-RelWithDebInfo
 mkdir -p _build/openmp
 cd _build/openmp
 
@@ -31,7 +31,7 @@ make -j 8
 
 ```shell
 module use $HOME/cerfacs-training-kokkos/modulefiles
-module load kokkos/4.1.00-cuda-12.0-gnu-11.2.0-RelWithDebInfo
+module load kokkos/4.1.00-cuda-11.8-gnu-9.4.0-RelWithDebInfo
 mkdir -p _build/cuda
 cd _build/cuda
 
@@ -57,7 +57,7 @@ make -j 8
 mkdir -p _build/cuda
 cd _build/cuda2
 
-module load nvidia/cuda/12.0
+module load cuda/11.8
 cmake -DSAXPY_KOKKOS_BUILD=ON -DSAXPY_KOKKOS_BACKEND=Cuda ../..
 make -j 8
 ```

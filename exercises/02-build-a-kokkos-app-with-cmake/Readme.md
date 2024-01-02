@@ -5,7 +5,7 @@ Here we will review two different ways of using kokkos when building an applicat
 
 # Use kokkos as a regular library with a modulefile
 
-In [exercise 01](../01-build-kokkos) we have just built and installed 3 versions of Kokkos using different compile toolchains (GNU, Intel/LLVM, nvcc), different low-level hardware backends (OpenMP, CUDA).
+In [exercise 01](../01-build-kokkos) we have just built and installed 2 versions of Kokkos using different compile toolchains (GNU, nvcc), different low-level hardware backends (OpenMP, CUDA).
 
 These installed versions of kokkos can re-used through a modulefile.
 Let's checked that and review how we can setup the cmake build system of an application to handle that.
@@ -23,12 +23,11 @@ module avail kokkos
 
 You should see that three new modulefiles are available:
 ```text
- > $ module av kokkos
+ > $ module av kokkos/
 
----------- /home/exter/kestener/cerfacs-training-kokkos/modulefiles --------
-kokkos/4.1.00-cuda-12.0-gnu-11.2.0-RelWithDebInfo
-kokkos/4.1.00-openmp-gnu-11.2.0-RelWithDebInfo
-kokkos/4.1.00-openmp-intel-llvm-2023.1.0-RelWithDebInfo
+------------------------------------ /home/pkestene/cerfacs-training-kokkos/modulefiles --------------------------------------
+kokkos/4.1.00-cuda-11.8-gnu-9.4.0-RelWithDebInfo
+kokkos/4.1.00-openmp-gnu-9.4.0-RelWithDebInfo
 ```
 
 
@@ -52,16 +51,13 @@ The most simple way of using kokkos, is to let the application build kokkos firs
 
 ```shell
 # environement setup
-module load nvidia/cuda/12.0
+module load cuda/11.8
 
 cd kokkos-demo-application
 mkdir -p _build/app_and_kokkos
 cd _build/app_and_kokkos
 cmake -DDEMO_APP_KOKKOS_BUILD:BOOL=ON -DDEMO_APP_KOKKOS_BACKEND=Cuda -DKokkos_ARCH_AMPERE80=ON ../..
 make -j 8
-# copy again job.sh
-cp ../../../../job.sh .
-sbatch job.sh
 ```
 
 **note**
@@ -71,17 +67,14 @@ Here on kraken we build on the login node, where no GPU is available, so we have
 
 ```shell
 # environement setup
-module load nvidia/cuda/12.0
-module load kokkos/4.1.00-cuda-12.0-gnu-11.2.0-RelWithDebInfo
+module load cuda/11.8
+module load kokkos/4.1.00-cuda-11.8-gnu-9.4.0-RelWithDebInfo
 
 cd kokkos-demo-application
 mkdir -p _build/app
 cd _build/app
 cmake ../..
 make -j 8
-# copy again job.sh
-cp ../../../../job.sh .
-sbatch job.sh
 ```
 
 Watch carefully the output and make sure you have the same results.

@@ -4,21 +4,13 @@ Here we build kokkos using the cmake build system. We will explore two options:
 
 We are loosely following [Kokkos lecture 1](https://github.com/kokkos/kokkos-tutorials/blob/main/LectureSeries/KokkosTutorial_01_Introduction.pdf), page 54 and after.
 
-# Minimal environment for Kraken
+# Minimal environment for hpcai
 
 ```shell
-# put this at the end of your .bash_profile on kraken
+# put this at the end of your .bash_profile on hpcai
 # we want to use a fairly recent version of the GNU compiler
-module unload compiler
-module load compiler/gcc/11.2.0
-
-module unload mpi
-
 module unload tools/cmake
-module load tools/cmake/3.23.0
-
-module unload tools/git
-module load tools/git/2.37.1
+module load tools/cmake/3.25.0
 ```
 
 # Download Kokkos sources
@@ -51,13 +43,10 @@ It is good practice to have a look at file `KokkosCore_config.h` generated at to
 # Build Kokkos for OpenMP backend with the gnu tool toolchain
 
 ```shell
-export GNU_VERSION=11.2.0
+export GNU_VERSION=9.4.0
 export KOKKOS_VERSION=4.1.00
 
 CMAKE_BUILD_TYPE=RelWithDebInfo
-
-module load compiler/gcc/$GNU_VERSION
-module load lib/hwloc/2.1.0
 
 cd kokkos
 BUILD_DIR=_build/$KOKKOS_VERSION/openmp-gnu-$GNU_VERSION-$CMAKE_BUILD_TYPE
@@ -78,8 +67,7 @@ ccmake ../../..
 # press "g" to generate Makefile
 make -j 8
 cd example/query_device
-# copy the template job.sh script (from top level exercise folder) and run it like this
-sbatch job.sh
+./Kokkos_query_device
 ```
 
 You should have an output similar to this (that we will comment during hands-on session)
@@ -90,13 +78,11 @@ Kokkos::OpenMP::initialize WARNING: OMP_PROC_BIND environment variable not set
   For best performance with OpenMP 3.1 set OMP_PROC_BIND=true
   For unit testing set OMP_PROC_BIND=false
 
-MPI detected: For OpenMP binding to work as intended, MPI ranks must be bound to exclusive CPU sets.
-
 {
-hwloc( NUMA[2] x CORE[16] x HT[1] )
+hwloc( NUMA[1] x CORE[32] x HT[2] )
   Kokkos Version: 4.1.0
 Compiler:
-  KOKKOS_COMPILER_GNU: 1120
+  KOKKOS_COMPILER_GNU: 940
 Architecture:
   CPU architecture: none
   Default Device: N6Kokkos6OpenMPE
@@ -124,72 +110,18 @@ Host Parallel Execution Space:
   KOKKOS_ENABLE_OPENMP: yes
 
 OpenMP Runtime Configuration:
-Kokkos::OpenMP thread_pool_topology[ 1 x 32 x 1 ]
+Kokkos::OpenMP thread_pool_topology[ 1 x 64 x 1 ]
 }
 ```
-
-# Build Kokkos for OpenMP backend with Intel/LLVM toolchain
-
-The benefit of this build is that it will bring vectorization flag for the CPU execution on Intel Xeon processor. For this to work, we need to use Intel/LLVM compiler version >= 2023.1.0
-
-Kraken CPU is an Intel Xeon processor (we know it by running `lscpu`), so we can instruct kokkos build to use compilation flag specific to that architecture.
-
-**Note**
-
-Be carefull, the following instructions are specific to Kraken (espacially regarding the compiler modulefile). We still need to load the gnu compiler, because intel compiler relies on GNU header for standard library.
-
-**Build instructions**
-
-```shell
-export GNU_VERSION=11.2.0
-export INTEL_LLVM_VERSION=23.2.1
-export KOKKOS_VERSION=4.1.00
-
-CMAKE_BUILD_TYPE=RelWithDebInfo
-
-module load compiler/gcc/$GNU_VERSION
-unset CXX CC F77 F90 F95 FC
-
-module load compiler/intel/$INTEL_LLVM_VERSION
-export CXX=icpx
-
-module load lib/hwloc/2.1.0
-
-cd kokkos
-BUILD_DIR=_build/$KOKKOS_VERSION/openmp-intel-llvm-$INTEL_LLVM_VERSION-$CMAKE_BUILD_TYPE
-INSTALL_DIR=$HOME/local/kokkos-$KOKKOS_VERSION-openmp-intel-llvm-$INTEL_LLVM_VERSION-$CMAKE_BUILD_TYPE
-mkdir -p $BUILD_DIR
-cd $BUILD_DIR
-cmake -DKokkos_ENABLE_OPENMP=ON -DKokkos_ENABLE_HWLOC=ON -DCMAKE_CXX_STANDARD=17 -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR -DCMAKE_BUILD_TYPE=$CMAKE_BUILD_TYPE ../../..
-make -j 8
-make install
-```
-
-Again, rebuild kokkos to enable examples:
-```shell
-ccmake ../../..
-# turn Kokkos_ENABLE_EXAMPLES=ON
-# press "c" to configure
-# press "g" to generate Makefile
-make -j 8
-cd example/query_device
-# copy the template job.sh script (from top level exercise folder) and run it like this
-sbatch job.sh
-```
-What differences do you see in the output of the job ?
 
 # Build Kokkos for both OpenMP and CUDA backends with gnu tool toolchain and nvcc toolchain
 
 ```shell
-unset CXX
-export GNU_VERSION=11.2.0
+export GNU_VERSION=9.4.0
 export KOKKOS_VERSION=4.1.00
-export CUDA_VERSION=12.0
+export CUDA_VERSION=11.8
 
 CMAKE_BUILD_TYPE=RelWithDebInfo
-
-module load compiler/gcc/$GNU_VERSION
-module load nvidia/cuda/$CUDA_VERSION
 
 cd kokkos
 BUILD_DIR=_build/$KOKKOS_VERSION/cuda-$CUDA_VERSION-gnu-$GNU_VERSION-$CMAKE_BUILD_TYPE
@@ -197,8 +129,9 @@ INSTALL_DIR=$HOME/local/kokkos-$KOKKOS_VERSION-cuda-$CUDA_VERSION-gnu-$GNU_VERSI
 mkdir -p $BUILD_DIR
 cd $BUILD_DIR
 
-# note: on kraken, when building on login node, kokkos can't auto detect GPU architecture, so we provide it
-cmake -DKokkos_ENABLE_OPENMP=ON -DKokkos_ENABLE_HWLOC=ON -DCMAKE_CXX_STANDARD=17 -DKokkos_ENABLE_CUDA=ON -DKokkos_ARCH_AMPERE80=ON -DKokkos_ENABLE_CUDA_CONSTEXPR=ON -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR -DCMAKE_BUILD_TYPE=$CMAKE_BUILD_TYPE ../../..
+# note: on hpcai, kokkos is able to auto-detect GPU hardware architecture (i.e. AMpere80 here).
+# when auto-detection is not possible, you to explicitely pass the hardware option to cmake, e.g. -DKokkos_ARCH_AMPERE80=ON
+cmake -DKokkos_ENABLE_OPENMP=ON -DKokkos_ENABLE_HWLOC=ON -DCMAKE_CXX_STANDARD=17 -DKokkos_ENABLE_CUDA=ON -DKokkos_ENABLE_CUDA_CONSTEXPR=ON -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR -DCMAKE_BUILD_TYPE=$CMAKE_BUILD_TYPE ../../..
 make -j 8
 make install
 ```
@@ -211,8 +144,7 @@ ccmake ../../..
 # press "g" to generate Makefile
 make -j 8
 cd example/query_device
-# copy the template job.sh script (from top level exercise folder) and run it like this
-sbatch job.sh
+./Kokkos_query_device
 ```
 
 What differences do you see in the output of the job ?

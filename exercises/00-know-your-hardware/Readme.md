@@ -3,16 +3,7 @@
 ```shell
 # put this at the end of your .bash_profile on kraken
 # we want to use a fairly recent version of the GNU compiler
-module unload compiler
-module load compiler/gcc/11.2.0
-
-module unload mpi
-
-module unload tools/cmake
-module load tools/cmake/3.23.0
-
-module unload tools/git
-module load tools/git/2.37.1
+module load cmake/3.25.0
 ```
 
 # Know your hardware
@@ -21,15 +12,13 @@ The purpose of this simple exercise is just to gather enought information that w
 
 We will use a simple `saxpy` algorithm and mesure memory bandwidth.
 
-To run code on the `gpua30` partition of `kraken`, use template script `job.sh` and submit the job on kraken, using command `sbatch job.sh`.
-
 ## Know your CPU
 
 You can get information about the CPU using command
 - `lscpu`
 - `lstopo`
 
-Knowing that the CPU on `gpua30` partition is an [Intel Xeon Gold 6326 CPU](https://www.intel.fr/content/www/fr/fr/products/sku/215274/intel-xeon-gold-6326-processor-24m-cache-2-90-ghz/specifications.html) with 8 populated memory channel operating at 3200 MT/s.
+Knowing that the CPU on `hpcai` partition is an [AMD EPYC 7502P 32-Core Processor](https://www.amd.com/fr/products/cpu/amd-epyc-7502p) with 8 populated memory channel operating at 3200 MT/s.
 
 **Question:**
 - what is the aggregated CPU memory bandwith per socket in gigabytes per second ?
@@ -40,16 +29,16 @@ Buid and run `deviceQuery.cpp` (directly copied from Nvidia's [CUDA samples](htt
 
 
 ```shell
-module load nvidia/cuda/12.0
+module load cuda/11.8
 
 nvcc -I. deviceQuery.cpp -o deviceQuery
 ```
 
-Run `deviceQuery` on the gpua30 partition. Cross-check that there are effectively 4 Nvidia GPU of type A30.
+Run `deviceQuery` on `hpcai`. Cross-check that there are effectively 2 Nvidia GPU of type A100.
 
 **Question:**
 - extract information `Memory Bus Width` and `Memory Clock rate` to compute memory bandwith (don't forget to multiply by to take into account Read and Write memory transfers).
-- what is the ratio of memory bandwith between one CPU socket and one A30 GPU ?
+- what is the ratio of memory bandwith between one CPU socket and one A100 GPU ?
 
 
 ## Explore memory bandwith with saxpy

@@ -10,7 +10,7 @@ https://github.com/OpenMP/Examples/blob/v4.5.0/sources/Example_teams.1.c
 ## Activities
 
 - Go into subfolder `openmp_target`, we have slightly modify this code to add a main and a Makefile.
-- check that it build and run using Nvidia nvhpc toolkit. Use `module load nvhpc/23.5` on kraken
+- check that it build and run using Nvidia nvhpc toolkit. Use `module load nvhpc/23.11` on hpcai
 
 # Kokkos
 

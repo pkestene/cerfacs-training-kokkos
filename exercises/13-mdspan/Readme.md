@@ -1,7 +1,7 @@
 # About mdspan
 
 Possible activities:
-- build, run and benchmark [mdspan](https://github.com/kokkos/mdspan) on kraken
+- build, run and benchmark [mdspan](https://github.com/kokkos/mdspan) on hpcai
 - interesting code using mdspan and several modern parallel programing models : [hpcpp](https://github.com/NERSC/hpcpp)
 
 

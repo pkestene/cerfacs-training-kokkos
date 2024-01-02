@@ -31,7 +31,7 @@ module use kokkos-resilience_dependencies/1.0
 Current version of kokkos-resilience can only be build for kokkos OpenMP backend.
 
 ```shell
-module load kokkos/4.1.00-openmp-gnu-11.2.0-RelWithDebInfo
+module load kokkos/4.1.00-openmp-gnu-9.4.0-RelWithDebInfo
 
 module use $HOME/.kokkos-resilience_dependencies/share/modulefiles
 module use kokkos-resilience_dependencies/1.0
