@@ -24,8 +24,8 @@ module load lib/hwloc/2.1.0
 module load kokkos/4.1.00-cuda-12.0-gnu-11.2.0-RelWithDebInfo
 module load kokkos-flcl/4.1.00-cuda-12.0-gnu-11.2.0-RelWithDebInfo
 
-mkdir _build/openmp
-cd _build/openmp
+mkdir _build/cuda
+cd _build/cuda
 ccmake ../..
 make
 ```

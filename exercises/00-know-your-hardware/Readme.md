@@ -49,7 +49,7 @@ Run `deviceQuery` on the gpua30 partition. Cross-check that there are effectivel
 
 **Question:**
 - extract information `Memory Bus Width` and `Memory Clock rate` to compute memory bandwith (don't forget to multiply by to take into account Read and Write memory transfers).
-- what is the the ratio of memory bandwith between one CPU socket and one A30 GPU ?
+- what is the ratio of memory bandwith between one CPU socket and one A30 GPU ?
 
 
 ## Explore memory bandwith with saxpy
