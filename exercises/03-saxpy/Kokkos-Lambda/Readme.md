@@ -44,7 +44,7 @@ make -j 8
 ## Kokkos::OpenMP backend
 
 ```shell
-mkdir -p _build/openmp
+mkdir -p _build/openmp2
 cd _build/openmp2
 
 cmake -DSAXPY_KOKKOS_BUILD=ON -DSAXPY_KOKKOS_BACKEND=OpenMP ../..
@@ -54,7 +54,7 @@ make -j 8
 ## Kokkos::Cuda backend
 
 ```shell
-mkdir -p _build/cuda
+mkdir -p _build/cuda2
 cd _build/cuda2
 
 module load cuda/11.8
