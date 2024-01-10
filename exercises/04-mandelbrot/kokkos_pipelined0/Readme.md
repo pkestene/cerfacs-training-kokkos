@@ -26,6 +26,7 @@ module load kokkos/4.1.00-openmp-gnu-9.4.0-RelWithDebInfo
 mkdir -p _build/openmp; cd _build/openmp
 cmake ../..
 make -j 8
+```
 
 # Minimal cmake information for Kokkos::Cuda backend on kraken
 
@@ -41,6 +42,7 @@ If you build both kokkos and user application:
 mkdir -p _build/openmp; cd _build/openmp
 cmake -DMANDELBROT_KOKKOS_BUILD=ON -DMANDELBROT_KOKKOS_BACKEND=OpenMP -DKokkos_ARCH_ZEN2=ON ../..
 make -j 8
+```
 
 # Minimal cmake information for Kokkos::Cuda backend on kraken
 
