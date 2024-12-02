@@ -25,8 +25,12 @@ set product [lindex $fullname_splitted end-1]
 # module config
 set version [lindex $fullname_splitted end]
 
+# detect cpu architecture
+set arch [exec uname -p]
+puts stderr "loading module $product on arch $arch"
+
 # for Tcl script use only
-set     topdir          $env(HOME)/local/kokkos-$version
+set     topdir          $env(HOME)/local/$arch/kokkos-$version
 
 if {[file isdirectory $topdir/lib64]} {
    set kokkos_libdir $topdir/lib64
