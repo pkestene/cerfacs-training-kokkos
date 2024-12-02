@@ -2,6 +2,7 @@
 #include <cstring>
 #include <cstdio>
 #include <cassert>
+#include <iostream>
 
 #include <string>
 #include <vector>

@@ -26,11 +26,9 @@ You should see that three new modulefiles are available:
  > $ module av kokkos
 
 ---------- /home/exter/kestener/cerfacs-training-kokkos/modulefiles --------
-kokkos/4.1.00-cuda-12.0-gnu-11.2.0-RelWithDebInfo
-kokkos/4.1.00-openmp-gnu-11.2.0-RelWithDebInfo
-kokkos/4.1.00-openmp-intel-llvm-2023.1.0-RelWithDebInfo
+kokkos/4.4.01-cuda-12.4-gnu-12.3.0-RelWithDebInfo
+kokkos/4.4.01-openmp-gnu-12.3.0-RelWithDebInfo
 ```
-
 
 # Integrate kokkos into a cmake-based application
 
@@ -52,34 +50,35 @@ The most simple way of using kokkos, is to let the application build kokkos firs
 
 ```shell
 # environement setup
-module load nvidia/cuda/12.0
+module load nvidia/cuda/12.4
 
 cd kokkos-demo-application
 mkdir -p _build/app_and_kokkos
 cd _build/app_and_kokkos
-cmake -DDEMO_APP_KOKKOS_BUILD:BOOL=ON -DDEMO_APP_KOKKOS_BACKEND=Cuda -DKokkos_ARCH_AMPERE80=ON ../..
+cmake -DDEMO_APP_KOKKOS_BUILD:BOOL=ON -DDEMO_APP_KOKKOS_BACKEND=Cuda ../..
 make -j 8
-# copy again job.sh
+# run app directly on grace node
+./Kokkos_query_device
+# run app from login node (edit job.sh)
 cp ../../../../job.sh .
 sbatch job.sh
 ```
-
-**note**
-Here on kraken we build on the login node, where no GPU is available, so we have to specify the Nvidia target architecture (Ampere 80). If you build on a machine where GPU is available, you can omit this flags, Kokkos will auto-detect the actual target architecture.
 
 ## Build application and used kokkos (already installed)
 
 ```shell
 # environement setup
-module load nvidia/cuda/12.0
-module load kokkos/4.1.00-cuda-12.0-gnu-11.2.0-RelWithDebInfo
+module load nvidia/cuda/12.4
+module load kokkos/4.4.01-cuda-12.4-gnu-12.3.0-RelWithDebInfo
 
 cd kokkos-demo-application
 mkdir -p _build/app
 cd _build/app
 cmake ../..
 make -j 8
-# copy again job.sh
+# run app directly on grace node
+./Kokkos_query_device
+# run app from login node (edit job.sh)
 cp ../../../../job.sh .
 sbatch job.sh
 ```
@@ -92,7 +91,7 @@ Watch carefully the output and make sure you have the same results.
 ## Other activities
 
 - just to practice, after making sure the kokkos modulefile is not loaded, try to rebuild the application by activating e.g. only the Kokkos::Serial device.
-- Add a printf in {\tt main} to display the name of {\tt DefaultExecutionSpace} and {\tt DefaultHostExecutionSpace} (just for cross checking)
+- add a printf in {\tt main} to display the name of {\tt DefaultExecutionSpace} and {\tt DefaultHostExecutionSpace} (just for cross checking)
 ```c++
 printf("Default execution space is %s\n",Kokkos::DefaultExecutionSpace::name());
 printf("Default memory    space is %s\n",Kokkos::DefaultExecutionSpace::memory_space::name());

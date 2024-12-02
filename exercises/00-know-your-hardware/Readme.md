@@ -1,27 +1,48 @@
 # Minimal environment
 
+You can either :
+- allocate a interactive session on grace/hopper compute node
+- run a batch job on the grace partition
+
+## Allocate a compute node on grace partition for interactive use
+
 ```shell
-# put this at the end of your .bash_profile on kraken
-# we want to use a fairly recent version of the GNU compiler
-module unload compiler
-module load compiler/gcc/11.2.0
+# the following line asks the SLURM manager to allocate a compute node on the grace partition
+# for 1 hour, and if enough resources are available, it will open a shell on the reserved
+# compute node
+salloc --partition=grace -N 1 --time=1:0:0 --gres=gpu:1 -n 24
+```
 
-module unload mpi
+## Run a batch job on grace partition
 
-module unload tools/cmake
-module load tools/cmake/3.23.0
+A example `job.sh` is provided in current directory.
 
-module unload tools/git
-module load tools/git/2.37.1
+```shell
+sbatch ./job.sh
+```
+
+## Slurm cheat sheet
+
+See https://slurm.schedmd.com/pdfs/summary.pdf
+
+## Build environment
+
+```shell
+# log onto a grace computing node (using salloc, see above)
+module load gcc/12.3.0_arm
+module load tools/cmake/3.29.3_arm
+module load nvidia/cuda/12.4
 ```
 
 # Know your hardware
 
 The purpose of this simple exercise is just to gather enought information that will allow us to better understand time and performance measurements, and also choose wisely variable `KOKKOS_ARCH` when we will build kokkos library.
 
-We will use a simple `saxpy` algorithm and mesure memory bandwidth.
+We will use a simple `saxpy` algorithm to mesure memory bandwidth.
 
-To run code on the `gpua30` partition of `kraken`, use template script `job.sh` and submit the job on kraken, using command `sbatch job.sh`.
+To run code on the `grace` partition of `calypso`, you can either:
+- reserve a compute node, build and run directly on it
+- use template script `job.sh` and submit the job on calypso, using command `sbatch job.sh`.
 
 ## Know your CPU
 
@@ -29,7 +50,7 @@ You can get information about the CPU using command
 - `lscpu`
 - `lstopo`
 
-Knowing that the CPU on `gpua30` partition is an [Intel Xeon Gold 6326 CPU](https://www.intel.fr/content/www/fr/fr/products/sku/215274/intel-xeon-gold-6326-processor-24m-cache-2-90-ghz/specifications.html) with 8 populated memory channel operating at 3200 MT/s.
+Knowing that the CPU on `grace` partition is an [Nvidia ARM Grace CPU C1](https://resources.nvidia.com/en-us-grace-cpu/data-center-datasheet) with 480 GBytes of RAM, and delivering up to 384 GB/s of memory bandwidth.
 
 **Question:**
 - what is the aggregated CPU memory bandwith per socket in gigabytes per second ?
@@ -40,16 +61,17 @@ Buid and run `deviceQuery.cpp` (directly copied from Nvidia's [CUDA samples](htt
 
 
 ```shell
-module load nvidia/cuda/12.0
+# on the grace compute node
+module load nvidia/cuda/12.4
 
 nvcc -I. deviceQuery.cpp -o deviceQuery
 ```
 
-Run `deviceQuery` on the gpua30 partition. Cross-check that there are effectively 4 Nvidia GPU of type A30.
+Run `deviceQuery` on the `grace` partition. Cross-check that there are effectively 4 Nvidia GPU of type A30.
 
 **Question:**
-- extract information `Memory Bus Width` and `Memory Clock rate` to compute memory bandwith (don't forget to multiply by to take into account Read and Write memory transfers).
-- what is the ratio of memory bandwith between one CPU socket and one A30 GPU ?
+- extract information `Memory Bus Width` and `Memory Clock rate` to compute memory bandwith (don't forget to multiply by two to take into account Read and Write memory transfers).
+- what is the ratio of memory bandwith between one grace CPU and one Hopper GPU ?
 
 
 ## Explore memory bandwith with saxpy

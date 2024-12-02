@@ -2,13 +2,13 @@
 
 ## environment
 
-All exercise will be done on the `kraken` supercomputer.
+All exercise will be done on the `calypso` supercomputer.
 
 Additionnal practical information that may or not be useful on site:
 
 1. We will use git to clone some repository from github; if you need, here are some minimal infomation to create a ssh key to simplify accessing github:
 ```shell
-# from your home on kraken
+# from your home on calypso
 cd .ssh
 mkdir github; cd github
 ssh-keygen -t ed25519 -C "pierre.kestener@cea.fr" -f $HOME/.ssh/github/id_ed25519

@@ -12,6 +12,9 @@
 // =========================
 #include <stdio.h>
 #include <stdlib.h>
+#include <string>
+#include <iomanip>
+#include <type_traits> // for std::is_same_v
 
 // =========================
 // CUDA imports
@@ -46,6 +49,31 @@ using real_t = float;
 #else
 using real_t = double;
 #endif
+
+/**
+ * @brief Convert a size into a human readable string
+ *
+ * see
+ * https://github.com/NVIDIA/cccl/blob/main/cudax/include/cuda/experimental/__stf/utility/pretty_print.cuh
+ */
+inline ::std::string
+pretty_print_prefix(size_t num_elem)
+{
+  const char * units[] = { " ", "K", "M", "G", "T" };
+  size_t       size = sizeof(units) / sizeof(char *);
+  int          i = 0;
+
+  double pretty_size = static_cast<double>(num_elem);
+  while (pretty_size >= 1024.0 && static_cast<size_t>(i) < size - 1)
+  {
+    pretty_size /= 1024.0;
+    ++i;
+  }
+
+  ::std::ostringstream out;
+  out << ::std::fixed << ::std::setprecision(2) << pretty_size << ' ' << units[i];
+  return out.str();
+}
 
 // =========================
 // kernel function (CPU) - serial
@@ -112,7 +140,7 @@ main(int argc, char ** argv)
   HostTimer ompTimer;
   CudaTimer gpuTimer;
 
-  if (sizeof(real_t) == sizeof(float))
+  if constexpr (std::is_same_v<real_t, float>)
     printf("Using data type: float\n");
   else
     printf("Using data type: double\n");
@@ -182,8 +210,11 @@ main(int argc, char ** argv)
     saxpy_serial(N, alpha, h_x, h_y);
   cpuTimer.stop();
   double elapsed = cpuTimer.elapsed();
-  printf("CPU CODE (Serial): %8ld elements, %10.6f ms per iteration, %6.3f GFLOP/s, %7.3f GB/s\n",
+  printf("CPU CODE (Serial): 2^%d = %8ld (= %s) elements, %10.6f ms per iteration, %6.3f GFLOP/s, "
+         "%7.3f GB/s\n",
+         log2N,
          N,
+         pretty_print_prefix(N).c_str(),
          (elapsed * 1000.0) / (double)numTimingReps,
          2.0 * N * numTimingReps / (elapsed * 1e9),
          3.0 * N * sizeof(real_t) * numTimingReps / (elapsed * 1e9));
@@ -196,8 +227,11 @@ main(int argc, char ** argv)
     saxpy_openmp(N, alpha, h_x, h_y);
   ompTimer.stop();
   elapsed = ompTimer.elapsed();
-  printf("CPU CODE (OpenMP): %8ld elements, %10.6f ms per iteration, %6.3f GFLOP/s, %7.3f GB/s\n",
+  printf("CPU CODE (OpenMP): 2^%d = %8ld (= %s) elements, %10.6f ms per iteration, %6.3f GFLOP/s, "
+         "%7.3f GB/s\n",
+         log2N,
          N,
+         pretty_print_prefix(N).c_str(),
          (elapsed * 1000.0) / (double)numTimingReps,
          2.0 * N * numTimingReps / (elapsed * 1e9),
          3.0 * N * sizeof(real_t) * numTimingReps / (elapsed * 1e9));
@@ -227,8 +261,11 @@ main(int argc, char ** argv)
   saxpy_cuda<<<numBlocks, numThreadsPerBlock>>>(N, alpha, d_x, d_y);
   gpuTimer.stop();
   time = gpuTimer.elapsed();
-  printf("GPU CODE (CUDA)  : %8ld elements, %10.6f ms per iteration, %6.3f GFLOP/s, %7.3f GB/s\n",
+  printf("GPU CODE (CUDA)  : 2^%d = %8ld (= %s) elements, %10.6f ms per iteration, %6.3f GFLOP/s, "
+         "%7.3f GB/s\n",
+         log2N,
          N,
+         pretty_print_prefix(N).c_str(),
          time * 1000,
          2.0 * N / (time * 1e9),
          3.0 * N * sizeof(real_t) / (time * 1e9));
@@ -251,25 +288,30 @@ main(int argc, char ** argv)
     status = cublasCreate(&handle);
 
     gpuTimer.reset();
-    if (sizeof(real_t) == sizeof(float))
+    if constexpr (std::is_same_v<real_t, float>)
     {
       // printf("%d ", std::is_same<float, real_t>::value);
       gpuTimer.start();
       cublasSaxpy(handle, N, (float *)&alpha, (float *)d_x, 1, (float *)d_y, 1);
       gpuTimer.stop();
     }
-    else if (sizeof(real_t) == sizeof(double))
+    else if constexpr (std::is_same_v<real_t, double>)
     {
       gpuTimer.start();
       cublasDaxpy(handle, N, (double *)&alpha, (double *)d_x, 1, (double *)d_y, 1);
       gpuTimer.stop();
     }
     time = gpuTimer.elapsed();
-    printf("GPU CODE (CUBLAS): %8ld elements, %10.6f ms per iteration, %6.3f GFLOP/s, %7.3f GB/s\n",
-           N,
-           time * 1000,
-           2.0 * N / (time * 1e9),
-           3.0 * N * sizeof(real_t) / (time * 1e9));
+    printf(
+      "GPU CODE (CUBLAS): 2^%d = %8ld (= %s) elements, %10.6f ms per iteration, %6.3f GFLOP/s, "
+      "%7.3f "
+      "GB/s\n",
+      log2N,
+      N,
+      pretty_print_prefix(N).c_str(),
+      time * 1000,
+      2.0 * N / (time * 1e9),
+      3.0 * N * sizeof(real_t) / (time * 1e9));
     status = cublasDestroy(handle);
   }
 

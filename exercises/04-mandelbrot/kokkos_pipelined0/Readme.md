@@ -18,21 +18,12 @@ nsys-ui report1.nsys-rep
 - change parameter `MAX_ITERS`; what is the effect on computation on both version ?
 
 
-# Minimal cmake information for Kokkos::OpenMP/Cuda backends on kraken
+# Minimal cmake information for Kokkos::OpenMP backend on calypso
 
 If you build using kokkos modulefile:
 ```shell
-module load kokkos/4.1.00-openmp-gnu-11.2.0-RelWithDebInfo
+module load kokkos/4.4.01-openmp-gnu-12.3.0-RelWithDebInfo
 mkdir -p _build/openmp; cd _build/openmp
-cmake ../..
-make -j 8
-```
-
-# Minimal cmake information for Kokkos::Cuda backend on kraken
-
-```shell
-module load kokkos/4.1.00-cuda-12.0-gnu-11.2.0-RelWithDebInfo
-mkdir _build/cuda; cd _build/cuda
 cmake ../..
 make -j 8
 ```
@@ -40,14 +31,23 @@ make -j 8
 If you build both kokkos and user application:
 ```shell
 mkdir -p _build/openmp; cd _build/openmp
-cmake -DMANDELBROT_KOKKOS_BUILD=ON -DMANDELBROT_KOKKOS_BACKEND=OpenMP -DKokkos_ARCH_SKX=ON ../..
+cmake -DMANDELBROT_KOKKOS_BUILD=ON -DMANDELBROT_KOKKOS_BACKEND=OpenMP ../..
 make -j 8
 ```
 
-# Minimal cmake information for Kokkos::Cuda backend on kraken
+# Minimal cmake information for Kokkos::Cuda backend on calypso
 
+If you build using kokkos modulefile:
 ```shell
-mkdir build_cuda; cd build_cuda
-cmake -DMANDELBROT_KOKKOS_BUILD=ON -DMANDELBROT_KOKKOS_BACKEND=Cuda -DKokkos_ARCH_AMPERE80=ON ../..
+module load kokkos/4.4.01-cuda-12.4-gnu-12.3.0-RelWithDebInfo
+mkdir -p _build/cuda; cd _build/cuda
+cmake ../..
+make -j 8
+```
+
+If you build both kokkos and user application:
+```shell
+mkdir -p _build/cuda; cd _build/cuda
+cmake -DMANDELBROT_KOKKOS_BUILD=ON -DMANDELBROT_KOKKOS_BACKEND=Cuda -DKokkos_ARCH_HOPPER90=ON ../..
 make -j 8
 ```
