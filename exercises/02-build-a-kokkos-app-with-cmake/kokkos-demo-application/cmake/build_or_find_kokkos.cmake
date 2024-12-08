@@ -105,14 +105,14 @@ if(DEMO_APP_KOKKOS_BUILD)
 
   # set a default value for kokkos archive file to use when not using git
   if (NOT DEFINED DEMO_APP_KOKKOS_SOURCE_ARCHIVE)
-    set(DEMO_APP_KOKKOS_SOURCE_ARCHIVE https://github.com/kokkos/kokkos/archive/refs/tags/4.1.00.tar.gz CACHE STRING "Kokkos source archive (can be a URL or local filepath).")
+    set(DEMO_APP_KOKKOS_SOURCE_ARCHIVE https://github.com/kokkos/kokkos/archive/refs/tags/4.4.01.tar.gz CACHE STRING "Kokkos source archive (can be a URL or local filepath).")
   endif()
 
   if (DEMO_APP_KOKKOS_USE_GIT)
     message("[demo_app / kokkos] Building kokkos from source using git sources")
     FetchContent_Declare( kokkos_external
       GIT_REPOSITORY https://github.com/kokkos/kokkos.git
-      GIT_TAG 4.1.00
+      GIT_TAG 4.4.01
       )
   else()
     message("[demo_app / kokkos] Building kokkos from source using archive file/URL ${DEMO_APP_KOKKOS_SOURCE_ARCHIVE}")
@@ -139,7 +139,7 @@ else()
   #
   # check if an already installed kokkos exists
   #
-  find_package(Kokkos 3.7.00 REQUIRED)
+  find_package(Kokkos 4.0.00 REQUIRED)
 
   if(TARGET Kokkos::kokkos)
 

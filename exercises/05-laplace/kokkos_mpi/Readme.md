@@ -12,34 +12,39 @@ https://github.com/NVIDIA-OpenACC-Course/nvidia-advanced-openacc-course-sources
 
 ## modulefiles environment
 
-```shell
-module load openmpi/4.1.6-gnu-11.2.0-cuda-12.0
+We will use nvhpc which provides a cuda-aware MPI implementation.
+Please note that by default, nvhpc uses its own compiler, .i.e the module exports environment
+variables `CC=nvc` and `CXX=nvc++`.
 
+
+```shell
+module unload nvidia/cuda
+module load nvhpc/24.7
 ```
 
-## Build for CPU (Kokkos::OpenMP) on kraken
+## Build for CPU (Kokkos::OpenMP) on calypso
 
 ```shell
 # if using OpenMP as default backend
-module load kokkos/4.1.00-openmp-gnu-11.2.0-RelWithDebInfo
+module load kokkos/4.4.01-openmp-gnu-12.3.0-RelWithDebInfo
 mkdir -p _build/openmp
 cd _build/openmp
 cmake ../..
 make
 ```
 
-## Build for GPU (Kokkos::Cuda) on kraken
+## Build for GPU (Kokkos::Cuda) on calypso
 
 ```shell
 # if using Cuda as default backend
-module load kokkos/4.1.00-cuda-12.0-gnu-11.2.0-RelWithDebInfo
+module load kokkos/4.4.01-cuda-12.4-gnu-12.3.0-RelWithDebInfo
 mkdir -p _build/cuda
 cd _build/cuda
 cmake ../..
 make
 ```
 
-## Example run on kraken
+## Example run on calypso
 
 Use submit jobs.
 

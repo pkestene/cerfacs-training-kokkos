@@ -1,16 +1,16 @@
 #!/bin/bash
-#SBATCH -J test_kokkos
+#SBATCH -J bench_saxpy
 #SBATCH -N 1
-#SBATCH -c 16
-#SBATCH --partition kokkos
-#SBATCH --gres=gpu:a30:4
+#SBATCH -c 72
+#SBATCH --partition grace
+#SBATCH --gres=gpu:1
 #SBATCH --ntasks-per-node=1
 #SBATCH --mail-user=your.email@wherever
 #SBATCH --mail-type=END
 
 cd $SLURM_SUBMIT_DIR
 
-module load nvidia/cuda/12.0
+module load nvidia/cuda/12.4
 
 # Set OMP_NUM_THREADS to the same value as -c
 # with a fallback in case it isn't set.
@@ -25,9 +25,12 @@ export OMP_PROC_BIND=spread
 export OMP_PLACES=threads
 
 # run your executable
-./saxpy.float 22
-./saxpy.float 23
-./saxpy.float 24
-./saxpy.float 25
-./saxpy.float 26
-./saxpy.float 27
+exe=./saxpy.double
+$exe 22
+$exe 23
+$exe 24
+$exe 25
+$exe 26
+$exe 27
+$exe 28
+$exe 29

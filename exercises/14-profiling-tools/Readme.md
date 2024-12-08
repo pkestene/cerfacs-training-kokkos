@@ -8,8 +8,8 @@ Build and this test code from folder test.
 ```shell
 cd test
 mkdir _build; cd _build
-module load nvidia/cuda/12.0
-module load kokkos/4.1.00-cuda-12.0-gnu-11.2.0-RelWithDebInfo
+module load nvidia/cuda/12.4
+module load kokkos/4.4.01-cuda-12.4-gnu-12.3.0-RelWithDebInfo
 
 cmake ..
 make
@@ -54,7 +54,7 @@ Look at slides 19. Try to use tools like `MemoryHighWaterMark`, `MemoryUsage` an
 
 On kraken, e.g.
 ```shell
-module load nvidia/cuda/12.0
+module load nvidia/cuda/12.4
 
 git clone git@github.com:kokkos/kokkos-tools.git
 cd kokkos-tools/profiling/nvtx-connector
@@ -64,8 +64,8 @@ make
 Let's build a simple CFD application, which code has been _decorated_ with `Kokkos::Profiling::pushRegion` / `Kokkos::Profiling::pop`
 
 ```shell
-module load nvidia/cuda/12.0
-module load kokkos/4.1.00-cuda-12.0-gnu-11.2.0-RelWithDebInfo
+module load nvidia/cuda/12.4
+module load kokkos/4.4.01-cuda-12.4-gnu-12.3.0-RelWithDebInfo
 
 git clone git@github.com:pkestene/euler2d_kokkos.git
 cd euler2d_kokkos
@@ -77,18 +77,6 @@ cd src
 
 Run the application `euler2d` with `job.sh` on GPU partition
 ```bash
-!/bin/bash
-#SBATCH -J euler2d
-#SBATCH -N 1
-#SBATCH -c 32
-#SBATCH --partition gpua30
-#SBATCH --gres=gpu:a30:4
-#SBATCH --ntasks-per-node=1
-#SBATCH --mail-user=your.email@wherever
-#SBATCH --mail-type=END
-
-cd $SLURM_SUBMIT_DIR
-
 # run application without kokkos profiling
 ./euler2d ./test_implode.ini
 
