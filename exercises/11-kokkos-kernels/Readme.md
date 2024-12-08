@@ -4,13 +4,13 @@ Reuse material from [Kokkos-tutorial](https://github.com/kokkos/kokkos-tutorials
 
 ```shell
 # for running on CPU
-module load kokkos/4.1.00-openmp-gnu-11.2.0-RelWithDebInfo
-module load kokkos-kernels/4.1.00-openmp-gnu-11.2.0-RelWithDebInfo
+module load kokkos/4.4.01-openmp-gnu-12.3.0-RelWithDebInfo
+module load kokkos-kernels/4.4.01-openmp-gnu-12.3.0-RelWithDebInfo
 
 # for running on GPU
-module load nvidia/cuda/12.0
-module load kokkos/4.1.00-cuda-12.0-gnu-11.2.0-RelWithDebInfo
-module load kokkos-kernels/4.1.00-cuda-12.0-gnu-11.2.0-RelWithDebInfo
+module load nvidia/cuda/12.4
+module load kokkos/4.4.01-cuda-12.4-gnu-12.3.0-RelWithDebInfo
+module load kokkos-kernels/4.4.01-cuda-12.4-gnu-12.3.0-RelWithDebInfo
 ```
 
 # Building an exercise
