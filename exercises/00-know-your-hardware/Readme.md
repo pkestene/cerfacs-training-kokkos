@@ -10,14 +10,22 @@ You can either :
 # the following line asks the SLURM manager to allocate a compute node on the grace partition
 # for 1 hour, and if enough resources are available, it will open a shell on the reserved
 # compute node
-salloc --partition=grace -N 1 --time=1:0:0 --gres=gpu:1 -n 24
+# from calypso login node
+salloc --reservation=kokkos --partition=grace -N 1 --gres=gpu:0 -n 18
+
+# you will be automatically log into one of the calypso-graceXY nodes
+# ssh again to the compute node, e.g.
+ssh calypso-graceXY
 ```
+
+Then you'll have acces to a calypso compute node equipped with a NVIDIA GH200 CPU-GPU.
 
 ## Run a batch job on grace partition
 
 A example `job.sh` is provided in current directory.
 
 ```shell
+# from calypso login nodes
 sbatch ./job.sh
 ```
 
