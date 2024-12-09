@@ -67,7 +67,7 @@ module load nvidia/cuda/12.4
 nvcc -I. deviceQuery.cpp -o deviceQuery
 ```
 
-Run `deviceQuery` on the `grace` partition. Cross-check that there are effectively 4 Nvidia GPU of type A30.
+Run `deviceQuery` on the `grace` partition. Cross-check that there are effectively 1 Nvidia GPU of type H100.
 
 **Question:**
 - extract information `Memory Bus Width` and `Memory Clock rate` to compute memory bandwith (don't forget to multiply by two to take into account Read and Write memory transfers).
